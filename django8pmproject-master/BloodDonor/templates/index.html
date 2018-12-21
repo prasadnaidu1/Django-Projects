@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+     <script src="{% static '/js/validations.js' %}" type="text/javascript"></script>
+    <meta charset="UTF-8">
+    <title>Blood Bank</title>
+
+
+
+</head>
+<body>
+
+        <table align="center">
+            <tr>
+                <td>
+                    <img src="{% static 'images/blood_donor_icon.png' %} " width="150" height="100">
+                </td>
+                <td>
+                    <font size="8" face="Arial">
+                        Blood Donor
+                    </font>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    <marquee>
+                      <font size="3" face="Arial">
+                        Donate Blood and Save life's
+                    </font></marquee>
+                </th>
+            </tr>
+        </table>
+
+        <table align="center" border="2">
+            <tr>
+                <th width="120">
+                    <a href="/openHomePage/?type=home">
+                        Home
+                    </a>
+                </th>
+                <th width="120">
+                    <a href="/openDonorLogin/?type=h_donor">
+                        Donor
+                    </a>
+                </th>
+                <th width="120">
+                    <a href="/openOrganizationLogin/?type=h_organization">
+                        Organization
+                    </a>
+                </th>
+                <th width="120"> About Us </th>
+                <th width="120">
+                    <a href="/admin/" target="_blank">
+                        Admin
+                    </a>
+                </th>
+            </tr>
+        </table>
+
+        {% if type == "home" %}
+        <table align="center">
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td width="350">
+                    <font size="4" face="Arial Rounded MT Bold">
+                    A blood donation occurs when a person voluntarily has blood drawn and used for transfusions and/or made into biopharmaceutical medications by a process called fractionation (separation of whole-blood components). Donation may be of whole blood, or of specific components directly (the latter called apheresis). Blood banks often participate in the collection process as well as the procedures that follow it.
+                    </font>
+                </td>
+                <td>
+                    <img src="{% static 'images/main_page_image.png' %} " width="250" height="250">
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+
+        {% if type == "h_donor" %}
+        <form action="/donorlogin/" method="post">
+            {% csrf_token %}
+        <table align="center" border="0">
+            <tr><th><h2><font color="red">{{ message }}</font></h2></th></tr>
+            <tr><th height="50" width="200"> Donor Login Page </th></tr>
+            <tr><th height="50" width="200"> <input type="email" placeholder="Username" required name="d_uname"> </th></tr>
+            <tr><th height="50" width="200"> <input type="password" placeholder="Password" required name="d_pass"> </th></tr>
+            <tr><th height="50" width="200"> <input type="submit" value="Login"> </th></tr>
+            <tr><th>
+                <a href="/openDonorRegister/?type=h_donor_register">
+                    New Donor Register
+                </a>
+            </th>
+            </tr>
+        </table>
+        </form>
+        {% endif %}
+
+        {% if type == "h_organization" %}
+        <form action="/organization_login/" method="post">
+            {% csrf_token %}
+        <table align="center" border="0">
+            <tr><th><h2><font color="red">{{ message }}</font></h2></th></tr>
+            <tr><th height="50" width="200"> Organization Login Page </th></tr>
+            <tr><th height="50" width="200"> <input type="email" placeholder="Username" required name="o_uname"> </th></tr>
+            <tr><th height="50" width="200"> <input type="password" placeholder="Password" required name="o_pass"> </th></tr>
+            <tr><th height="50" width="200"> <input type="submit" value="Login"> </th></tr>
+        </table>
+        </form>
+        {% endif %}
+
+        {% if type == "h_donor_register" %}
+            <form action="/registerDonor/"   method="post">
+                {% csrf_token %}
+            <table align="center" border="0">
+                <tr>
+                    <th width="250" >
+                        <h3>Donor Registration</h3>
+                    </th>
+                </tr>
+            <tr>
+                    <th width="250" >
+                        {% csrf_token %}
+                        <select
+                                onselect="true"
+                                name="d_state"
+                                onchange="check()"
+                                id="one">
+                        {% if key == "one" %}
+                            <option>{{ states }}</option>
+                         {% else %}
+                            {% for x in states %}
+                                <option>{{ x }}</option>
+                            {% endfor %}
+                          {% endif %}
+                        </select>
+                    </th>
+                </tr>
+
+            <tr>
+                    <th width="250" >
+                        <select name="d_city">
+                            {% for x in city_names %}
+                                <option>{{ x }}</option>
+                            {% endfor %}
+                        </select>
+                    </th>
+                </tr>
+                <tr><th width="250" ><input type="text" placeholder="Name" required name="d_name"></th></tr>
+
+                <tr><th width="250" ><input type="number" placeholder="Contact No" required name="d_cno"></th> </tr>
+
+                <tr><th width="250" ><input type="email" placeholder="Email-Id" required name="d_email"></th> </tr>
+                <tr><th width="250" ><input type="password" placeholder="Password" required name="d_pass"></th> </tr>
+                <tr><th width="250" ><input type="Submit" value="Register"></th> </tr>
+            </table>
+            </form>
+        {% endif %}
+</body>
+</html>
